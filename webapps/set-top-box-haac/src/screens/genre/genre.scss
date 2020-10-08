@@ -60,12 +60,16 @@
   }
 }
 
+.game__focused {
+  border: 1px solid white;
+}
+
 .button {
   border: 1px solid transparent;
 }
 
 .focus {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
   border: 1px solid white;
 }

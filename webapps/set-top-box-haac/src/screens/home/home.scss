@@ -19,11 +19,13 @@
 }
 
 .button {
+  background-color: black;
   border: 1px solid transparent;
+  color: white;
 }
 
 .focus {
-  background-color: black;
-  color: white;
+  background-color: white;
   border: 1px solid white;
+  color: black;
 }
