@@ -45,13 +45,13 @@ export enum Entity {
 
 export interface HomeScreenData {
     title: string;
-    categories: Category[];
+    currentItems: Category[];
     suggestions?: Suggestion[];
 }
 
 export interface GameScreenData {
     title: string;
-    games: Game[];
+    currentItems: Game[];
     suggestions?: Suggestion[];
 }
 

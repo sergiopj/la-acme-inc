@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import './index.css';
 import script from '../../common/mocks';
 import { Screen } from '../../../dialogs/src/models';
-import { init, Channel } from '@telefonica/la-web-sdk';
+import { init, Channel } from '@telefonica/custom-la-web-sdk';
 import SplashScreen from './screens/splash';
 import ErrorScreen from './screens/error';
 import HomeScreen from './screens/home';

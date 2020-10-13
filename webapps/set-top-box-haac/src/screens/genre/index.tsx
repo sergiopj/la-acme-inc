@@ -1,16 +1,18 @@
 import './genre.scss';
 
 import React, { useCallback, useRef } from 'react';
-import { screenReady, NavigableButton, Footer, NavigableWrapper } from '@telefonica/la-web-sdk';
+import { screenReady, NavigableButton, Footer, NavigableWrapper, useAura } from '@telefonica/custom-la-web-sdk';
 import { Intent, Game, GameScreenData } from '../../../../../dialogs/src/models';
-import { useAura } from '@telefonica/la-web-sdk';
 
 const GameScreen: React.FC<GameScreenData> = (gameData: GameScreenData) => {
     const { sendCommand } = useAura();
-    const gameList = useRef(gameData.games);
+    const gameList = useRef(gameData.currentItems);
 
     const goToHome = () => {
-        sendCommand({ intent: Intent.HOME, entities: [] });
+        sendCommand({
+            intent: 'intent.la-generikon.generik',
+            entities: [{ type: 'ent.dynamic_intent' as string, entity: Intent.HOME }],
+        });
     };
 
     const getImage = (filename: string | undefined): string => {

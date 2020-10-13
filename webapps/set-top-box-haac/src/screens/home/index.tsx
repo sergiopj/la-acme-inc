@@ -1,13 +1,20 @@
 import './home.scss';
 
-import { KeyCode, KeyEvent, NavigableButton, screenReady, useBackground, useInput } from '@telefonica/la-web-sdk';
+import {
+    KeyCode,
+    KeyEvent,
+    NavigableButton,
+    screenReady,
+    useBackground,
+    useInput,
+    useAura,
+} from '@telefonica/custom-la-web-sdk';
 import { HomeScreenData, Category } from '../../../../../dialogs/src/models';
-import { useAura } from '@telefonica/la-web-sdk';
 import React, { useEffect, useCallback, useState } from 'react';
 import { Intent } from '../../../../../dialogs/src/models';
 
 const HomeScreen: React.FC<HomeScreenData> = (data: HomeScreenData) => {
-    const { categories, title } = data;
+    const { currentItems, title } = data;
     const background = useBackground();
     const { sendCommand } = useAura();
     const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -26,7 +33,7 @@ const HomeScreen: React.FC<HomeScreenData> = (data: HomeScreenData) => {
                     }
                     break;
                 case KeyCode.KEY_RIGHT:
-                    if (currentIndex < categories.length - 1) {
+                    if (currentIndex < currentItems.length - 1) {
                         setCurrentIndex(currentIndex + 1);
                     }
                     break;
@@ -40,33 +47,38 @@ const HomeScreen: React.FC<HomeScreenData> = (data: HomeScreenData) => {
     useInput(onKeyPressed);
 
     useEffect(() => {
-        background.setBackground(categories[currentIndex].img);
+        background.setBackground(currentItems[currentIndex].img);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex]);
 
     const goToCategory = (genre: string) => {
+        let intent = Intent.HOME;
         switch (genre) {
             case 'adventure':
-                sendCommand({ intent: Intent.ADVENTURE, entities: [] });
+                intent = Intent.ADVENTURE;
                 break;
             case 'action':
-                sendCommand({ intent: Intent.ACTION, entities: [] });
+                intent = Intent.ACTION;
                 break;
             case 'sports':
-                sendCommand({ intent: Intent.SPORTS, entities: [] });
+                intent = Intent.SPORTS;
                 break;
             case 'simulation':
-                sendCommand({ intent: Intent.SIMULATION, entities: [] });
+                intent = Intent.SIMULATION;
                 break;
             default:
                 break;
         }
+        sendCommand({
+            intent: 'intent.la-generikon.generik',
+            entities: [{ type: 'ent.dynamic_intent' as string, entity: intent }],
+        });
     };
 
     return (
         <div className="home-screen">
             <h1 className="title">{title}</h1>
-            {categories.map((category: Category, index: number) => (
+            {currentItems.map((category: Category, index: number) => (
                 <div className="home-section" key={category.id}>
                     <NavigableButton
                         onClick={() => {
